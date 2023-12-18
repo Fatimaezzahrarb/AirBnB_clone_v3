@@ -1,12 +1,13 @@
 #!/usr/bin/python3
 """ """
-from tests.test_models.test_base_model import test_basemodel
+import os
+
+from tests.test_models.test_base_model import TestBasemodel
 from models.state import State
 
 
-class test_state(test_basemodel):
-    """ """
-
+class TestState(TestBasemodel):
+    """Determine tests for the State model."""
     def __init__(self, *args, **kwargs):
         """ """
         super().__init__(*args, **kwargs)
@@ -16,4 +17,7 @@ class test_state(test_basemodel):
     def test_name3(self):
         """ """
         new = self.value()
-        self.assertEqual(type(new.name), str)
+        self.assertEqual(
+            type(new.name),
+            str if os.getenv('HBNB_TYPE_STORAGE') != 'db' else type(None)
+        )
