@@ -124,29 +124,20 @@ class HBNBCommand(cmd.Cmd):
             _list = ag.split(" ")
 
             kwargs = {}
-            for x in range(1, len(_list)):
-                key, value = tuple(_list[x].split("="))
-                if value[0] == '"':
-                    value = value.strip('"').replace("_", " ")
-                else:
-                    try:
-                        value = eval(value)
-                    except (SyntaxError, NameError):
-                        continue
-                kwargs[key] = value
-
-            if kwargs == {}:
-                obj = eval(_list[0])()
-            else:
-                obj = eval(_list[0])(**kwargs)
-                storage.new(obj)
-            print(obj.id)
-            obj.save()
-
+            for x in _list[1:]:
+                x_splited = x_split("=")
+                x_splited[1] = eval(x_splited[1])
+                if type(x_splited[1]) is str:
+                    x_splited[1] = x_splited[1].replace("_", " ").replace('"', '\\"')
+                kwargs[x_splited[0]] = x_splited[1]
         except SyntaxError:
             print("** class name missing **")
         except NameError:
             print("** class doesn't exist **")
+
+        new_instance = HBNBCommand.classes[_list[0]](**kwargs)
+        new_instance.save()
+        print(new_instance.id)
 
 
     def help_create(self):
