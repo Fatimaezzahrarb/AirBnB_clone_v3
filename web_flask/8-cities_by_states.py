@@ -6,10 +6,12 @@ from models.city import City
 
 app = Flask(__name__)
 
+
 @app.teardown_appcontext
 def teardown_context(exception):
     """Close the storage engine."""
     storage.close()
+
 
 @app.route('/cities_by_states', strict_slashes=False)
 def display_states():
@@ -17,6 +19,7 @@ def display_states():
     state_dict = storage.all(State)
     states = [state for state in state_dict.values()]
     return render_template('8-cities_by_states.html', all_states=states)
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
