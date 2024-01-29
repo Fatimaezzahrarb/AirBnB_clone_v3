@@ -38,7 +38,8 @@ def display_c(text):
 def display_python(text='is cool'):
     """
     Route that displays "Python ", followed by the value of the text variable
-    (replace underscore _ symbols with a space). The default value of text is “is cool”.
+    (replace underscore _ symbols with a space).
+    The default value of text is “is cool”.
     """
     return 'Python {}'.format(text.replace('_', ' '))
 
