@@ -14,11 +14,10 @@ def teardown_context(exception):
 
 
 @app.route('/cities_by_states', strict_slashes=False)
-def display_states():
-    """Display states from the database."""
-    state_dict = storage.all(State)
-    states = [state for state in state_dict.values()]
-    return render_template('8-cities_by_states.html', all_states=states)
+def cities_by_states():
+    """display the states and cities listed in alphabetical order"""
+    state_d = storage.all("State").values()
+    return render_template('8-cities_by_states.html', state_d=state_d)
 
 
 if __name__ == "__main__":
