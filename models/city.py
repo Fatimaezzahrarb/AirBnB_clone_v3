@@ -1,23 +1,26 @@
 #!/usr/bin/python3
-""" City Module for the HBNB project """
-import os
+'''
+This module defines the City class.
+'''
+from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
+from os import getenv
 
-from models.base_model import BaseModel, Base
-
+# Check the storage type
+storage_type = getenv("HBNB_TYPE_STORAGE")
 
 class City(BaseModel, Base):
-    """ City class, contain state ID and name """
+    '''
+    This class represents a City and inherits from BaseModel.
+    '''
     __tablename__ = 'cities'
-    name = Column(
-        String(128), nullable=False
-    ) if os.getenv('HBNB_TYPE_STORAGE') == 'db' else ''
-    state_id = Column(
-        String(60), ForeignKey('states.id'), nullable=False
-    ) if os.getenv('HBNB_TYPE_STORAGE') == 'db' else ''
-    places = relationship(
-        'Place',
-        cascade='all, delete, delete-orphan',
-        backref='cities'
-    ) if os.getenv('HBNB_TYPE_STORAGE') == 'db' else None
+
+    # Define columns based on storage type
+    if storage_type == 'db':
+        name = Column(String(128), nullable=False)
+        state_id = Column(String(60), ForeignKey('states.id'), nullable=False)
+        places = relationship("Place", backref="cities", cascade="all, delete-orphan")
+    else:
+        name = ""
+        state_id = ""
