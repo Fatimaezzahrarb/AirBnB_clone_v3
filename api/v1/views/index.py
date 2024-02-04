@@ -1,24 +1,37 @@
 #!/usr/bin/python3
-'''api status'''
-import models
-from models import storage
-from models.base_model import BaseModel
-from flask import jsonify
+"""index.py to connect to API"""
+
 from api.v1.views import app_views
+from flask import Flask, jsonify
+from models import storage
+
+HBNB_TEXT = {
+    "amenities": "Amenity",
+    "cities": "City",
+    "places": "Place",
+    "reviews": "Review",
+    "states": "State",
+    "users": "User"
+}
+
+app = Flask(__name__)
+app.register_blueprint(app_views, url_prefix='/api/v1')
 
 
 @app_views.route('/status', strict_slashes=False)
-def returnstuff():
-    '''return stuff'''
-    return jsonify(status='OK')
+def hbnb_status():
+    """Endpoint for checking API status"""
+    return jsonify({"status": "OK"})
 
 
 @app_views.route('/stats', strict_slashes=False)
-def stuff():
-    '''JSON Responses'''
-    todos = {'states': State, 'users': User,
-            'amenities': Amenity, 'cities': City,
-            'places': Place, 'reviews': Review}
-    for key in todos:
-        todos[key] = storage.count(todos[key])
-    return jsonify(todos)
+def hbnb_stats():
+    """Endpoint for providing API statistics"""
+    return_dict = {}
+    for key, value in HBNB_TEXT.items():
+        return_dict[key] = storage.count(value)
+    return jsonify(return_dict)
+
+
+if __name__ == "__main__":
+    pass
