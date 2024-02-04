@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 """index.py to connect to API"""
-
 from api.v1.views import app_views
-from flask import Flask, jsonify
+from flask import Flask, Blueprint, jsonify
 from models import storage
 
-HBNB_TEXT = {
+
+hbnbText = {
     "amenities": "Amenity",
     "cities": "City",
     "places": "Place",
@@ -14,24 +14,20 @@ HBNB_TEXT = {
     "users": "User"
 }
 
-app = Flask(__name__)
-app.register_blueprint(app_views, url_prefix='/api/v1')
-
 
 @app_views.route('/status', strict_slashes=False)
-def hbnb_status():
-    """Endpoint for checking API status"""
+def hbnbStatus():
+    """hbnbStatus"""
     return jsonify({"status": "OK"})
 
 
 @app_views.route('/stats', strict_slashes=False)
-def hbnb_stats():
-    """Endpoint for providing API statistics"""
+def hbnbStats():
+    """hbnbStats"""
     return_dict = {}
-    for key, value in HBNB_TEXT.items():
+    for key, value in hbnbText.items():
         return_dict[key] = storage.count(value)
     return jsonify(return_dict)
-
 
 if __name__ == "__main__":
     pass
