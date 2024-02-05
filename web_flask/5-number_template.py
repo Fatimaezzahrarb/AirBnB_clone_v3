@@ -17,7 +17,7 @@ def hello_hbnb():
 
 
 @app.route('/hbnb', strict_slashes=False)
-def display_hbnb():
+def hbnb():
     """
     Route that displays "HBNB".
     """
@@ -25,7 +25,7 @@ def display_hbnb():
 
 
 @app.route('/c/<text>', strict_slashes=False)
-def display_c(text):
+def c_text(text):
     """
     Route that displays "C "
     """
@@ -34,7 +34,7 @@ def display_c(text):
 
 @app.route('/python/', strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
-def display_python(text='is cool'):
+def python_text(text='is cool'):
     """
     Route that displays "Python "
     """
@@ -42,18 +42,17 @@ def display_python(text='is cool'):
 
 
 @app.route('/number/<int:n>', strict_slashes=False)
-def display_number(n):
+def text_if_int(n):
     """
-    Route that displays “n is a number” only if n is an integer.
+    Route that displays only if int given.
     """
-    return '{} is a number'.format(n)
+    return '{:d} is a number'.format(n)
 
 
 @app.route('/number_template/<int:n>', strict_slashes=False)
-def display_number_template(n):
+def html_if_int(n):
     """
-    Route that displays a HTML page only if n is an integer:
-    H1 tag: “Number: n” inside the tag BODY
+    Route that displays a HTML page only if int given
     """
     return render_template('5-number.html', n=n)
 
